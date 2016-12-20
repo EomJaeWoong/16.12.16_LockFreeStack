@@ -2,6 +2,7 @@
 #define __LOCKFREESTACK__H__
 
 #include <malloc.h>
+#include <Windows.h>
 
 template <class DATA>
 class CLockfreeStack
@@ -32,7 +33,7 @@ public:
 	{
 		_lUseSize = 0;
 
-		-pTop = _aligned_malloc(st_TOP_NODE, 1);
+		_pTop = (st_TOP_NODE *)_aligned_malloc(sizeof(st_TOP_NODE), 16);
 		_pTop->pTopNode = NULL;
 		_pTop->iUniqueNum = 0;
 	}
@@ -43,7 +44,16 @@ public:
 	// Parameters: 없음.
 	// Return: 없음.
 	/////////////////////////////////////////////////////////////////////////
-	virtual ~CLockfreeStack();
+	virtual ~CLockfreeStack()
+	{
+		st_NODE *pNode;
+		while (_pTop->pTopNode != NULL)
+		{
+			pNode = _pTop->pTopNode;
+			_pTop->pTopNode = _pTop->pTopNode->pNext;
+			free(pNode);
+		}
+	}
 
 	/////////////////////////////////////////////////////////////////////////
 	// 현재 사용중인 용량 얻기.
@@ -77,16 +87,17 @@ public:
 	bool	Push(DATA Data)
 	{
 		st_NODE *pNode = new st_NODE;
-		st_TOP_NODE *pPreTopNode;
+		st_TOP_NODE pPreTopNode;
 
 		do {
-			pPreTopNode = _pTop;
+			pPreTopNode.pTopNode = _pTop->pTopNode;
+			pPreTopNode.iUniqueNum = _pTop->iUniqueNum;
 
 			pNode->Data = Data;
 			pNode->pNext = _pTop->pTopNode;
-		} while (!InterlockedCompareExchange128(_pTop, ++(_pTop->iUniqueNum), pNode, pPreTopNode);
-
-		iUseSize += sizeof(pNode);
+		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNode, (LONG64 *)&pPreTopNode));
+		InterlockedIncrement64(&_pTop->iUniqueNum);
+		_lUseSize += sizeof(pNode);
 
 		return true;
 	}
@@ -99,15 +110,24 @@ public:
 	/////////////////////////////////////////////////////////////////////////
 	bool	Pop(DATA *pOutData)
 	{
-		st_TOP_NODE *pPreTopNode;;
+		st_TOP_NODE pPreTopNode;
+		st_NODE *pNode, *pNewTopNode;
+
 		do
 		{
-			pPreTopNode = _pTop;
-			*pOutData = pPreTopNode->pTopNode->Data;
+			pPreTopNode.pTopNode = _pTop->pTopNode;
+			pPreTopNode.iUniqueNum = _pTop->iUniqueNum;
 
-			pNewTop = _pTop->pNext;
+			pNode = _pTop->pTopNode;
 
-		} while (InterlockedCompareExchange(&_pTop, pNewTop, pPopNode);
+			pNewTopNode = _pTop->pTopNode->pNext;
+
+		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNewTopNode, (LONG64 *)&pPreTopNode));
+		InterlockedIncrement64(&_pTop->iUniqueNum);
+		*pOutData = pNode->Data;
+		free(pNode);
+
+		return true;
 	}
 
 private:
