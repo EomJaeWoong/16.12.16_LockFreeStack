@@ -96,7 +96,7 @@ public:
 			pNode->Data = Data;
 			pNode->pNext = _pTop->pTopNode;
 		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNode, (LONG64 *)&pPreTopNode));
-		InterlockedIncrement64(&_pTop->iUniqueNum);
+		InterlockedIncrement64((LONG64 *)&_pTop->iUniqueNum);
 		_lUseSize += sizeof(pNode);
 
 		return true;
@@ -123,7 +123,7 @@ public:
 			pNewTopNode = _pTop->pTopNode->pNext;
 
 		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNewTopNode, (LONG64 *)&pPreTopNode));
-		InterlockedIncrement64(&_pTop->iUniqueNum);
+		InterlockedIncrement64((LONG64 *)&_pTop->iUniqueNum);
 		*pOutData = pNode->Data;
 		free(pNode);
 

@@ -28,6 +28,12 @@ struct st_TEST_DATA
 
 CLockfreeStack<st_TEST_DATA *> g_Stack;
 
+LONG64 lPushTPS = 0;
+LONG64 lPopTPS = 0;
+
+LONG64 lPushCounter = 0;
+LONG64 lPopCounter = 0;
+
 unsigned __stdcall StackThread(void *pParam);
 
 void main()
@@ -35,11 +41,7 @@ void main()
 	HANDLE hThread[dfTHREAD_MAX];
 	DWORD dwThreadID;
 
-	LONG64 lPushTPS = 0;
-	LONG64 lPopTPS = 0;
 
-	LONG64 lPushCounter = 0;
-	LONG64 lPopCounter = 0;
 
 	for (int iCnt = 0; iCnt < dfTHREAD_MAX; iCnt++)
 	{
@@ -107,14 +109,18 @@ unsigned __stdcall StackThread(void *pParam)
 	}
 
 	for (iCnt = 0; iCnt < iRand; iCnt++)
+	{
 		g_Stack.Push(pDataArray[iCnt]);
+		lPushCounter++;
+	}
 
 	while (1){
-		Sleep(0);
+		Sleep(2);
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
 		{
 			g_Stack.Pop(&pData);
+			lPopCounter++;
 
 			if ((pData->lData != 0x0000000055555555) || (pData->lCount != 0))
 				printf("pDataArray[%d] is using in stack\n", iCnt);
@@ -123,7 +129,7 @@ unsigned __stdcall StackThread(void *pParam)
 			InterlockedIncrement64(&pData->lData);
 		}
 
-		Sleep(0);
+		Sleep(2);
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
 		{
@@ -138,6 +144,9 @@ unsigned __stdcall StackThread(void *pParam)
 		}
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
+		{
 			g_Stack.Push(pDataArray[iCnt]);
+			lPushCounter++;
+		}
 	}
 }
