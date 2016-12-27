@@ -1,16 +1,16 @@
-﻿빌드 시작: 2016-12-23 오후 3:34:25
-     1>2 노드의 "C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\LockFreeStack\LockFreeStack.vcxproj" 프로젝트(Build 대상)입니다.
+﻿빌드 시작: 2016-12-27 오후 11:39:29
+     1>2 노드의 "C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\LockFreeStack\LockFreeStack.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt LockfreeStack_test.cpp
          LockfreeStack_test.cpp
      1>LockfreeStack_test.cpp(96): warning C4244: '인수' : 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\x64\Release\LockFreeStack.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\x64\Release\LockFreeStack.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\x64\Release\LockFreeStack.lib" /MACHINE:X64 x64\Release\LockfreeStack_test.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\x64\Release\LockFreeStack.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\x64\Release\LockFreeStack.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\x64\Release\LockFreeStack.lib" /MACHINE:X64 x64\Release\LockfreeStack_test.obj
          코드를 생성하고 있습니다.
          코드를 생성했습니다.
-         LockFreeStack.vcxproj -> C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\x64\Release\LockFreeStack.exe
-     1>"C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\LockFreeStack\LockFreeStack.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+         LockFreeStack.vcxproj -> C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\x64\Release\LockFreeStack.exe
+     1>"C:\Users\EomJaeWoong\Documents\Visual Studio 2013\Projects\16.12.16_LockFreeStack\LockFreeStack\LockFreeStack.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
 빌드했습니다.
 
-경과 시간: 00:00:01.40
+경과 시간: 00:00:00.76
