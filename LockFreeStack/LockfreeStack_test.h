@@ -9,5 +9,8 @@ struct st_TEST_DATA
 
 #define dfTHREAD_ALLOC 10000
 #define dfTHREAD_MAX 10
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 #endif
