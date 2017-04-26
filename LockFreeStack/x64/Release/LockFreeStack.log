@@ -1,4 +1,4 @@
-﻿빌드 시작: 2016-12-23 오후 3:34:25
+﻿빌드 시작: 2017-04-26 오후 12:02:45
      1>2 노드의 "C:\Users\USER\Documents\Visual Studio 2013\Projects\BroadCast\LockFreeStack\LockFreeStack\LockFreeStack.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt LockfreeStack_test.cpp
@@ -13,4 +13,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:01.40
+경과 시간: 00:00:01.26

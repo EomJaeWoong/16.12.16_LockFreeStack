@@ -101,7 +101,7 @@ unsigned __stdcall StackThread(void *pParam)
 
 	iRand = rand() % dfTHREAD_ALLOC;
 
-	for (iCnt = 0; iCnt < iRand; iCnt++)
+	for (iCnt = 0; iCnt < dfTHREAD_ALLOC; iCnt++)
 	{
 		pDataArray[iCnt] = new st_TEST_DATA;
 		pDataArray[iCnt]->lData = 0x0000000055555555;
@@ -115,7 +115,7 @@ unsigned __stdcall StackThread(void *pParam)
 	}
 
 	while (1){
-		Sleep(2);
+		Sleep(3);
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
 		{
@@ -125,11 +125,13 @@ unsigned __stdcall StackThread(void *pParam)
 			if ((pData->lData != 0x0000000055555555) || (pData->lCount != 0))
 				printf("pDataArray[%d] is using in stack\n", iCnt);
 
-			InterlockedIncrement64(&pData->lCount);
-			InterlockedIncrement64(&pData->lData);
+			InterlockedIncrement64((LONG64 *)&pData->lCount);
+			InterlockedIncrement64((LONG64 *)&pData->lData);
+
+			pDataArray[iCnt] = pData;
 		}
 
-		Sleep(2);
+		Sleep(3);
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
 		{
@@ -139,8 +141,8 @@ unsigned __stdcall StackThread(void *pParam)
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)
 		{
-			pDataArray[iCnt]->lData = 0x0000000055555555;
-			pDataArray[iCnt]->lCount = 0;
+			InterlockedDecrement64((LONG64 *)&pDataArray[iCnt]->lCount);
+			InterlockedDecrement64((LONG64 *)&pDataArray[iCnt]->lData);
 		}
 
 		for (int iCnt = 0; iCnt < iRand; iCnt++)

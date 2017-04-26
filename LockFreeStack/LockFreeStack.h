@@ -32,6 +32,7 @@ public:
 	CLockfreeStack()
 	{
 		_lUseSize = 0;
+		_iUniqueNum = 0;
 
 		_pTop = (st_TOP_NODE *)_aligned_malloc(sizeof(st_TOP_NODE), 16);
 		_pTop->pTopNode = NULL;
@@ -88,6 +89,7 @@ public:
 	{
 		st_NODE *pNode = new st_NODE;
 		st_TOP_NODE pPreTopNode;
+		__int64 iUniqueNum = InterlockedIncrement64(&_iUniqueNum);
 
 		do {
 			pPreTopNode.pTopNode = _pTop->pTopNode;
@@ -95,8 +97,7 @@ public:
 
 			pNode->Data = Data;
 			pNode->pNext = _pTop->pTopNode;
-		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNode, (LONG64 *)&pPreTopNode));
-		InterlockedIncrement64((LONG64 *)&_pTop->iUniqueNum);
+		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, iUniqueNum, (LONG64)pNode, (LONG64 *)&pPreTopNode));
 		_lUseSize += sizeof(pNode);
 
 		return true;
@@ -111,7 +112,8 @@ public:
 	bool	Pop(DATA *pOutData)
 	{
 		st_TOP_NODE pPreTopNode;
-		st_NODE *pNode, *pNewTopNode;
+		st_NODE *pNode;
+		__int64 iUniqueNum = InterlockedIncrement64(&_iUniqueNum);
 
 		do
 		{
@@ -119,14 +121,9 @@ public:
 			pPreTopNode.iUniqueNum = _pTop->iUniqueNum;
 
 			pNode = _pTop->pTopNode;
-
-			pNewTopNode = _pTop->pTopNode->pNext;
-
-		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, _pTop->iUniqueNum, (LONG64)pNewTopNode, (LONG64 *)&pPreTopNode));
-		InterlockedIncrement64((LONG64 *)&_pTop->iUniqueNum);
-		*pOutData = pNode->Data;
-		free(pNode);
-
+		} while (!InterlockedCompareExchange128((volatile LONG64 *)_pTop, iUniqueNum, (LONG64)_pTop->pTopNode->pNext, (LONG64 *)&pPreTopNode));
+		*pOutData = pPreTopNode.pTopNode->Data;
+		delete pNode;
 		return true;
 	}
 
